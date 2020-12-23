@@ -20,7 +20,7 @@
 
    
 
-# Post exploitation
+# Files exfiltration
 
 ### Method 1 - Using SCP
 
