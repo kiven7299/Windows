@@ -96,7 +96,7 @@ Store a malicious shortcut in startup folder.
 
 ### Create malicious shortcut
 
-![image-20201102112123102](I:\Personal\PowerShell scripts images\image-20201102112123102.png)
+![image-20201102112123102](.\PowerShell scripts images\image-20201102112123102.png)
 
 
 
