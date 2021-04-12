@@ -195,3 +195,14 @@ Out-File -FilePath .\encrypted_rs_pay -InputObject "$func`n$cipher" -Encoding AS
 Out-File -FilePath "$pwd\encrypted_payload" -InputObject "$cipher" -Encoding ASCII -NoNewline ;
 ```
 
+
+
+# Basic
+
+### Tail
+
+> Equivalent to tail command in Linux
+
+```
+ Get-Content .\access.log -Wait -Tail 3
+```
