@@ -9,13 +9,13 @@
 2. List powershell command history
 
    ```powershell
-   rm (Get-PSReadlineOption).HistorySavePath
+   rm (Get-PSReadlineOption).HistorySavePath;
    ```
 
 3. Clear PowerShell events log (**Administrator only**)
 
    ```powershell
-   clear-eventlog -logname "Windows PowerShell"
+   clear-eventlog -logname "Windows PowerShell";
    ```
 
    
